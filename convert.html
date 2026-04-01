@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ASCII Array Converter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --md-primary: #6750a4;
+        --md-on-primary: #ffffff;
+        --md-primary-container: #eaddff;
+        --md-on-primary-container: #21005d;
+        --md-surface: #fef7ff;
+        --md-surface-container: #f3edf7;
+        --md-surface-container-high: #ece6f0;
+        --md-outline: #79747e;
+        --md-outline-variant: #cac4d0;
+        --md-on-surface: #1d1b20;
+        --md-on-surface-variant: #49454f;
+        --md-success: #146c2e;
+        --shadow-1:
+          0 1px 2px rgba(0, 0, 0, 0.18), 0 1px 3px 1px rgba(0, 0, 0, 0.08);
+        --shadow-2:
+          0 2px 6px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Roboto", sans-serif;
+        background: var(--md-surface);
+        color: var(--md-on-surface);
+      }
+
+      .page {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 32px 20px 56px;
+      }
+
+      .hero {
+        margin-bottom: 24px;
+      }
+
+      .eyebrow {
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--md-on-surface-variant);
+        margin-bottom: 8px;
+        font-weight: 500;
+      }
+
+      h1 {
+        margin: 0 0 10px;
+        font-size: clamp(2rem, 4vw, 3rem);
+        line-height: 1.15;
+        color: var(--md-on-primary-container);
+      }
+
+      .subtitle {
+        margin: 0;
+        color: var(--md-on-surface-variant);
+        font-size: 1rem;
+        line-height: 1.6;
+        max-width: 720px;
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--md-outline-variant);
+        border-radius: 28px;
+        box-shadow: var(--shadow-2);
+        overflow: hidden;
+      }
+
+      .card-section {
+        padding: 24px;
+      }
+
+      .card-section + .card-section {
+        border-top: 1px solid var(--md-outline-variant);
+      }
+
+      .field-label {
+        display: block;
+        font-size: 0.95rem;
+        font-weight: 500;
+        margin-bottom: 10px;
+        color: var(--md-on-surface);
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 150px;
+        resize: vertical;
+        border: 1px solid var(--md-outline);
+        border-radius: 20px;
+        padding: 18px 18px;
+        font: inherit;
+        font-size: 1rem;
+        line-height: 1.5;
+        background: #fff;
+        color: var(--md-on-surface);
+        outline: none;
+        transition:
+          border-color 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      textarea:focus {
+        border-color: var(--md-primary);
+        box-shadow: 0 0 0 3px rgba(103, 80, 164, 0.15);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      button {
+        border: none;
+        border-radius: 999px;
+        padding: 0 24px;
+        height: 44px;
+        font: inherit;
+        font-weight: 500;
+        cursor: pointer;
+        transition:
+          transform 0.15s ease,
+          box-shadow 0.2s ease,
+          background 0.2s ease;
+      }
+
+      button:hover {
+        transform: translateY(-1px);
+      }
+      button:active {
+        transform: translateY(0);
+      }
+
+      .btn-filled {
+        background: var(--md-primary);
+        color: var(--md-on-primary);
+        box-shadow: var(--shadow-1);
+      }
+
+      .btn-tonal {
+        background: var(--md-primary-container);
+        color: var(--md-on-primary-container);
+      }
+
+      .btn-outlined {
+        background: transparent;
+        color: var(--md-primary);
+        border: 1px solid var(--md-outline);
+      }
+
+      .status {
+        min-height: 24px;
+        font-size: 0.95rem;
+        color: var(--md-on-surface-variant);
+        padding-top: 8px;
+      }
+
+      .status.success {
+        color: var(--md-success);
+      }
+
+      .helper {
+        margin-top: 10px;
+        font-size: 0.92rem;
+        color: var(--md-on-surface-variant);
+      }
+
+      .code-wrap {
+        position: relative;
+      }
+
+      pre {
+        margin: 0;
+        background: var(--md-surface-container);
+        color: var(--md-on-surface);
+        border-radius: 20px;
+        padding: 18px;
+        overflow: auto;
+        min-height: 160px;
+        white-space: pre-wrap;
+        word-break: break-word;
+        border: 1px solid var(--md-outline-variant);
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 0.96rem;
+        line-height: 1.6;
+      }
+
+      .footer-note {
+        margin-top: 18px;
+        color: var(--md-on-surface-variant);
+        font-size: 0.92rem;
+        line-height: 1.5;
+      }
+
+      @media (max-width: 640px) {
+        .page {
+          padding: 20px 14px 40px;
+        }
+        .card-section {
+          padding: 18px;
+        }
+        textarea,
+        pre {
+          border-radius: 16px;
+        }
+        .card {
+          border-radius: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <div class="eyebrow">Material Design Style</div>
+        <h1>String to ASCII Array</h1>
+        <p class="subtitle">
+          Paste any text or URL below. The page converts each character into its
+          ASCII code and shows the result as a JavaScript array that you can
+          copy instantly.
+        </p>
+      </section>
+
+      <section class="card">
+        <div class="card-section">
+          <label class="field-label" for="inputText">Input String</label>
+          <textarea id="inputText" placeholder="Enter text here..."></textarea>
+          <div class="helper">Example output: [104, 116, 116, 112, ...]</div>
+        </div>
+
+        <div class="card-section">
+          <div class="actions">
+            <button class="btn-tonal" id="copyBtn">Copy Output</button>
+            <button class="btn-outlined" id="clearBtn">Clear</button>
+          </div>
+          <div id="status" class="status"></div>
+        </div>
+
+        <div class="card-section">
+          <label class="field-label" for="outputText">ASCII Array Output</label>
+          <div class="code-wrap">
+            <pre id="outputText"></pre>
+          </div>
+          <div class="footer-note">
+            The output is formatted so you can paste it directly into a
+            JavaScript array declaration.
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const inputText = document.getElementById("inputText");
+      const outputText = document.getElementById("outputText");
+      const status = document.getElementById("status");
+      const copyBtn = document.getElementById("copyBtn");
+      const clearBtn = document.getElementById("clearBtn");
+
+      function toAsciiArray(str) {
+        return [...str].map((char) => char.charCodeAt(0));
+      }
+
+      function renderOutput() {
+        const value = inputText.value;
+        const asciiArray = toAsciiArray(value);
+        outputText.textContent = `[${asciiArray.join(", ")}]`;
+        status.textContent = value ? "Converted successfully." : "";
+        status.className = "status success";
+      }
+
+      async function copyOutput() {
+        const text = outputText.textContent.trim();
+        if (!text) {
+          status.textContent = "Nothing to copy yet.";
+          status.className = "status";
+          return;
+        }
+
+        try {
+          await navigator.clipboard.writeText(text);
+          status.textContent = "Output copied to clipboard.";
+          status.className = "status success";
+        } catch (error) {
+          status.textContent = "Copy failed. Please copy manually.";
+          status.className = "status";
+        }
+      }
+
+      function clearAll() {
+        inputText.value = "";
+        outputText.textContent = "[]";
+        status.textContent = "Cleared.";
+        status.className = "status";
+        inputText.focus();
+      }
+
+      copyBtn.addEventListener("click", copyOutput);
+      clearBtn.addEventListener("click", clearAll);
+
+      inputText.addEventListener("input", renderOutput);
+
+      renderOutput();
+    </script>
+  </body>
+</html>
